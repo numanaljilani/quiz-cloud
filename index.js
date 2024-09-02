@@ -8,12 +8,12 @@ import { dirname } from "path";
 app.use(express.json());
 app.use(cors());
 
-//The express.urlencoded() middleware is used to parse and extract this URL-encoded data from the request body and make it available in the req.body object for further processing in your application
+// The express.urlencoded() middleware is used to parse and extract this URL-encoded data from the request body and make it available in the req.body object for further processing in your application
 app.use(express.urlencoded({ extended: true }));
 
 // Define the path to the static HTML file
 const publicPath = path.join(dirname("public"), "public");
-console.log(dirname("public"));
+console.log(`${publicPath}/index.html` , ">>>")
 // Serve static files from the 'public' directory
 app.use(express.static(publicPath));
 // Set up the default route to serve the HTML file
@@ -22,14 +22,14 @@ app.get("/test", (req, res) => {
   res.send("Working");
 });
 
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(publicPath, 'index.html'), (err) => {
-//     if (err) {
-//       console.error('Error sending file:', err);
-//       res.status(500).send({ message: 'Internal server error' });
-//     }
-//   });
-// });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(publicPath, 'index.html'), (err) => {
+    if (err) {
+      console.error('Error sending file:', err);
+      res.status(500).send({ message: 'Internal server error' });
+    }
+  });
+});
 // app.get('/privacy-policy', (req, res) => {
 //   res.sendFile(path.join(publicPath, 'privacy.html'), (err) => {
 //     if (err) {
