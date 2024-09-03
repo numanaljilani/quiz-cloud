@@ -18,6 +18,7 @@ export const login = async (req, res, next) => {
 
   const { email, password, FCMToken } = req.body;
   try {
+    console.log(email , password)
     const user = await User.findOne({ email });
     console.log(user, "User ");
 

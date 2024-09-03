@@ -9,6 +9,7 @@ import dotenv from 'dotenv'
 
 import authRoutes from './routes/authRoutes.js'
 import {connectDB} from "./config/db.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 app.use(express.json());
 app.use(cors());
@@ -51,9 +52,9 @@ app.get('/', (req, res) => {
 app.use("/api/auth", authRoutes);
 // app.use("/api/question", questionsRoutes);
 
-// global.appRoot : any = path.resolve(path.resolve());
+global.appRoot= path.resolve(path.resolve());
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

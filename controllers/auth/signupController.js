@@ -2,6 +2,7 @@ import Joi from "joi";
 import CustomErrorHandler from "../../services/error/CustomErrorHandler.js";
 import bcrypt from "bcrypt";
 import JwtService from "../../services/jwt/JwtService.js";
+import { User } from "../../models/userModel.js";
 
 
 const signup = async (req, res, next) => {
@@ -32,9 +33,13 @@ const signup = async (req, res, next) => {
 
   // check if user is in the database already
   try {
-    const exist = await prisma.user.findUnique({
-      where: { email: req.body.email },
-    });
+    const {
+      name,
+      email,
+      password,
+    } = req.body;
+
+    const exist = await User.findOne({email})
     if (exist) {
       return next(
         CustomErrorHandler.alreadyExist(
@@ -43,31 +48,20 @@ const signup = async (req, res, next) => {
       );
     }
 
-    const {
-      name,
-      email,
-      password,
-    } = req.body;
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // prepare the model
-    const user = await prisma.user.create({
-      data: {
-        name: name,
-        email,
-        password: hashedPassword,
-      },
-    });
+    const user = await new User({name , email , password : hashedPassword}).save()
     // creating access token
     const access_token = JwtService.sign({
-      id: user.id,
+      id: user._id,
     });
 
     // creating refresh token
     const refresh_token = JwtService.sign(
-      { id: user.id },
+      { id: user._id },
       "1y",
       process.env.REFRESH_SECRET
     );
