@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import Joi from "joi";
 import CustomErrorHandler from "../../services/error/CustomErrorHandler.js";
 import JwtService from "../../services/jwt/JwtService.js";
+import { User } from "../../models/userModel.js";
 
 export const login = async (req, res, next) => {
   // Joi Validation

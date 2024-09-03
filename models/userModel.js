@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
-
+import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 const userSchema = new Schema({
   email: {
     type: String,
@@ -73,4 +72,4 @@ userSchema.pre('save', function(next) {
 
 // Optionally add virtuals for full name if first and last names are stored separately
 
-module.exports = mongoose.model('User', userSchema);
+export  const User = mongoose.model('User', userSchema);
