@@ -4,16 +4,25 @@ const app = express();
 import cors from "cors";
 import path from "path";
 import { dirname } from "path";
+import dotenv from 'dotenv'
+
+
+import authRoutes from './routes/authRoutes.js'
+import {connectDB} from "./config/db.js";
 
 app.use(express.json());
 app.use(cors());
+dotenv.config();
+console.log(process.env.DATABASE_URL)
+
+
+connectDB()
 
 // The express.urlencoded() middleware is used to parse and extract this URL-encoded data from the request body and make it available in the req.body object for further processing in your application
 app.use(express.urlencoded({ extended: true }));
 
 // Define the path to the static HTML file
 const publicPath = path.join(dirname("public"), "public");
-console.log(`${publicPath}/index.html` , ">>>")
 // Serve static files from the 'public' directory
 app.use(express.static(publicPath));
 // Set up the default route to serve the HTML file
@@ -26,7 +35,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'), (err) => {
     if (err) {
       console.error('Error sending file:', err);
-      res.status(500).send({ message: 'Internal server error' });
+      res.status(500).send({ message: 'Internal server error custome error send' });
     }
   });
 });
@@ -39,7 +48,7 @@ app.get('/', (req, res) => {
 //   });
 // });
 
-// app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 // app.use("/api/question", questionsRoutes);
 
 // global.appRoot : any = path.resolve(path.resolve());
