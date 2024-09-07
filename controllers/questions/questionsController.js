@@ -1,8 +1,19 @@
 import Joi from "joi";
 import CustomErrorHandler from "../../services/error/CustomErrorHandler.js";
-import { PrismaClient } from "@prisma/client";
+import Question from "../../models/questionsModel.js";
 
-const prisma = new PrismaClient();
+
+
+export const examsQuestions = async (req,res , next) =>{
+  try {
+    const questions = await Question.find();
+    res.status(200).json({success : true , data : questions})
+
+
+  } catch (error) {
+    console.log(error.message , "Error from qestions api")
+  }
+}
 
 export const addCloudServiceProviders = async (
   req,

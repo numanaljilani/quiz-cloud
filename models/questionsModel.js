@@ -28,14 +28,22 @@ const QuestionSchema = new Schema(
       type: Number,
       required: true,
     },
-    type: {
+    service: {
       type: [String],
       required: true,
+    },
+    examset : {
+      type: mongoose.Schema.Types.ObjectId,
+        ref: 'QuestionsSet',
     },
     index: {
       type: Number,
       unique: true,
       required: true,
+    },
+    multiselect: {
+      type: Boolean,
+      default : false
     },
   },
   {

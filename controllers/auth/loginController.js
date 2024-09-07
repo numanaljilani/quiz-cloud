@@ -18,7 +18,7 @@ export const login = async (req, res, next) => {
 
   const { email, password, FCMToken } = req.body;
   try {
-    console.log(email , password)
+    console.log(email, password);
     const user = await User.findOne({ email });
     console.log(user, "User ");
 
@@ -83,11 +83,7 @@ export const me = async (req, res, next) => {
 
     const { id } = await JwtService.verify(jwtToken);
 
-    const user = await prisma.user.findUnique({
-      where: {
-        id: id,
-      },
-    });
+    const user = await User.findById({ _id: id });
     console.log(user, "User ");
 
     //if not user sending error with message through custom errror handler
